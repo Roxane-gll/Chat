@@ -45,13 +45,6 @@
             window.scrollTo(0, document.body.scrollHeight);
         });
 
-        socket.on('user', function(user) {
-            var item = document.createElement('li');
-            item.textContent = user;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-
     </script>
 </body>
 </html>
