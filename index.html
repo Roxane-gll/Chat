@@ -16,6 +16,14 @@
     </style>
 </head>
 <body>
+    <ul id="user"></ul>
+    <form id="userNameForm" action="">
+        <label for="nameUser">Enter your name: </label>
+        <input id="nameUser" autocomplete="off" /><br>
+        <label for="email">Enter your email: </label>
+        <input type="email" name="email" id="email" required><br>
+        <button id="data">Your data</button>
+    </form>
     <ul id="messages"></ul>
     <form id="form" action="">
         <input id="input" autocomplete="off" /><button>Send</button>
@@ -24,21 +32,48 @@
     <script>
         var socket = io();
 
+        var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
+        //var user = document.getElementById('user');
+        var userNameForm = document.getElementById('userNameForm');
+        var nameUser = document.getElementById('nameUser');
+        var emailUser = document.getElementById('email');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (input.value) {
-                socket.emit('chat message', input.value);
+                var objetMess={
+                    'mess':input.value,
+                    'nomUser':nameUser.value,
+                    'email':emailUser.value
+                }
+                socket.emit('chat message', objetMess);
                 input.value = '';
+            }
+        });
+
+        userNameForm.addEventListener('submit', function(e) {
+            console.log('marche', nameUser.value);
+            e.preventDefault();
+            if (nameUser.value) {
+                var objetUser={
+                    'email':emailUser.value,
+                    'nomUser':nameUser.value,
+                    'image': 'https://www.gravatar.com/avatar/'
+                }
+                socket.emit('userName', objetUser);
             }
         });
 
         socket.on('chat message', function(msg) {
             var item = document.createElement('li');
-            item.textContent = msg;
+            item.textContent =msg.name +' : '+ msg.message;
             messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+            var image=document.createElement('img');
+            image.src = msg.image;
+            messages.appendChild(image);
             window.scrollTo(0, document.body.scrollHeight);
         });
 
