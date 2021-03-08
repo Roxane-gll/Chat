@@ -23,7 +23,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-        
+
         var form = document.getElementById('form');
         var input = document.getElementById('input');
 
@@ -31,8 +31,6 @@
             e.preventDefault();
             if (input.value) {
                 socket.emit('chat message', input.value);
-                input.value = '';
-                socket.emit('user', input.value);
                 input.value = '';
             }
         });
