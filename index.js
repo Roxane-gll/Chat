@@ -10,12 +10,21 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+    socket.on('online', connected => {
+        console.log(names);
+        
+        io.emit('onligne', names);
+    });
+
     socket.on('userName', name => {
-        console.log('marche js', name);
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
         names.push(name);
         console.log(names);
         io.emit('userName', name);
+        socket.on('disconnect', () => {
+            name.ligne=0;
+            io.emit('userName', name);
+        });
     });
 
     socket.on('chat message', msg => {

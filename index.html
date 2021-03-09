@@ -11,8 +11,10 @@
         #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
 
         #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages > li { padding: 0.5rem 1rem; }
-        #messages > li:nth-child(odd) { background: #efefef; }
+        #messages > li { padding: 10px 10px 10px 45px; }
+        .messMoi { background-color: crimson; }
+
+        .imageProfil{height: 25px; width: 25px; border-radius: 20px; position: relative; bottom: 35px; left: 5px}
     </style>
 </head>
 <body>
@@ -35,7 +37,7 @@
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
-        //var user = document.getElementById('user');
+        var user = document.getElementById('user');
         var userNameForm = document.getElementById('userNameForm');
         var nameUser = document.getElementById('nameUser');
         var emailUser = document.getElementById('email');
@@ -46,12 +48,15 @@
                 var objetMess={
                     'mess':input.value,
                     'nomUser':nameUser.value,
-                    'email':emailUser.value
+                    'email':emailUser.value,
                 }
                 socket.emit('chat message', objetMess);
                 input.value = '';
             }
         });
+
+        let connected=1
+        socket.emit('online', connected);
 
         userNameForm.addEventListener('submit', function(e) {
             console.log('marche', nameUser.value);
@@ -60,19 +65,54 @@
                 var objetUser={
                     'email':emailUser.value,
                     'nomUser':nameUser.value,
-                    'image': 'https://www.gravatar.com/avatar/'
+                    'image': 'https://www.gravatar.com/avatar/',
+                    'ligne':1
                 }
                 socket.emit('userName', objetUser);
             }
         });
 
+        socket.on('online', function (onlineNow){
+            var text='';
+            console.log('online',onlineNow)
+            if(connect.ligne===1){
+                text='is connected';
+            }else{
+                text='is disconnected';
+            }
+            var item = document.createElement('li');
+            item.textContent =onlineNow.nomUser +' : '+ text;
+            user.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on('userName', function (connect){
+            var text='';
+            console.log(connect)
+            if(connect.ligne===1){
+                text='is connected';
+            }else{
+                text='is disconnected';
+            }
+            var item = document.createElement('li');
+            item.textContent =connect.nomUser +' : '+ text;
+            user.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
         socket.on('chat message', function(msg) {
             var item = document.createElement('li');
             item.textContent =msg.name +' : '+ msg.message;
+            if(msg.name===nameUser.value){
+                console.log('marche')
+                item.classList.add("messMoi")
+            }
             messages.appendChild(item);
+
             window.scrollTo(0, document.body.scrollHeight);
             var image=document.createElement('img');
             image.src = msg.image;
+            image.classList.add('imageProfil')
             messages.appendChild(image);
             window.scrollTo(0, document.body.scrollHeight);
         });
