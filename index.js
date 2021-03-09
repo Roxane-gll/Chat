@@ -17,8 +17,8 @@ io.on('connection', (socket) => {
 
     })
 
-    socket.on('write',nom=>{
-        io.emit('write',nom);
+    socket.on('write',input=>{
+        io.emit('write',input);
 
     })
 
