@@ -17,8 +17,8 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
     //console.log(socket.rooms);
     //objets des utilisateurs envoyer pour afficher les statuts
-    socket.on('co',isSet=>{
-        io.emit('co',names);
+    socket.on('userConnection',isSet=>{
+        io.emit('userConnection',names);
     })
 
     //texte lors de l'écriture d'un message
@@ -27,9 +27,10 @@ io.on('connection', (socket) => {
     })
 
     //creation des objets utilisateurs
-    socket.on('userName', name => {
+    socket.on('login', name => {
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
         name.socketId= socket.id;
+        console.log(name.ligne);
         let bon=1
         for (let i=0;i<names.length;i++){
             if(name.email===names[i].email){
@@ -37,15 +38,14 @@ io.on('connection', (socket) => {
                 names[i].nomUser=name.nomUser
             }
         }
-        console.log(bon)
         if(bon===1){
             names.push(name);
         }
         console.log(names);
-        io.emit('userName', name);
+        io.emit('login', name);
         socket.on('disconnect', () => {
-            name.ligne=0;
-            io.emit('userName', name);
+            name.ligne=false;
+            io.emit('login', name);
         });
     });
 

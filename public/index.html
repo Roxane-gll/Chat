@@ -44,32 +44,11 @@
         emailUser.disabled = false;
         data.disabled=false;
         input.setAttribute("disabled", true);
+        liste.setAttribute("disabled", true);
 
         //liste des personnes et leurs status
         liste.addEventListener("click",()=>{
-            socket.emit('co', 1);
-
-        });
-        //affichage de la liste
-        socket.on('co', function (names){
-            console.log(names)
             if(liste.classList.contains('up')) {
-                
-                for (let i = 0; i < names.length; i++) {
-                    if (user.childElementCount<names.length) {
-                        var text = '';
-                        if (names[i].ligne === 1) {
-                            text = 'is connected';
-                        } else {
-                            text = 'is disconnected';
-                        }
-                        var item = document.createElement('li');
-                        item.textContent = names[i].nomUser + ' : ' + text;
-                        user.appendChild(item);
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }
-
-                }
                 user.classList.add('visible');
                 user.classList.remove('hidden');
                 liste.classList.remove('up');
@@ -78,8 +57,6 @@
                 user.classList.add('hidden');
                 liste.classList.add('up');
             }
-
-
 
         });
 
@@ -110,14 +87,15 @@
                     'email':emailUser.value,
                     'nomUser':nameUser.value,
                     'image': 'https://www.gravatar.com/avatar/',
-                    'ligne':1,
+                    'ligne':true,
                     'socketId':0
                 }
-                socket.emit('userName', objetUser);
+                socket.emit('login', objetUser);
                 nameUser.setAttribute("disabled", true);
                 emailUser.setAttribute("disabled", true);
                 data.setAttribute("disabled", true);
                 input.disabled = false;
+                liste.disabled = false;
             }
         });
         //texte lors de l'écriture d'un message
@@ -144,20 +122,23 @@
             }
         });
         //affichage des nom des utilisateurs et leurs statuts
-        socket.on('userName', function (connect){
+        socket.on('login', function (connect){
             let text='';
-            if(connect.ligne===1){
+            if(connect.ligne===true){
                 text='is connected';
-            }else{
+            }
+            if(connect.ligne===false){
                 text='is disconnected';
             }
-            var item = document.createElement('li');
+            let item = document.createElement('li');
             item.textContent =connect.nomUser +' : '+ text;
             user.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
+
+
         });
         //affichage des messages du chat
-        socket.on('chat message', function(msg) {
+        socket.on('chat message', function(message) {
             let writing=document.querySelector('.writing');
             if(writing!==null){
                 writing.classList.remove('writing');
@@ -169,19 +150,22 @@
             if (hours<10) {hours = "0" + hours}
             if (min<10) {min = "0" + min}
             let item = document.createElement('li');
-            item.textContent =msg.name +' : '+ msg.message+'    '+hours+' : '+min;
-            if(msg.name===nameUser.value){
+            item.textContent =message.name +' : '+ message.message+'    '+hours+' : '+min;
+            if(message.name===nameUser.value){
                 console.log('marche')
                 item.classList.add("messMoi")
             }
             messages.appendChild(item);
 
             window.scrollTo(0, document.body.scrollHeight);
-            var image=document.createElement('img');
-            image.src = msg.image;
+            let image=document.createElement('img');
+            image.src = message.image;
             image.classList.add('imageProfil')
             messages.appendChild(image);
             window.scrollTo(0, document.body.scrollHeight);
+
+
+
         });
 
     </script>
