@@ -15,6 +15,7 @@ app.use(express.static('public'));
 
 //node js côté serveur
 io.on('connection', (socket) => {
+    //console.log(socket.rooms);
     //objets des utilisateurs envoyer pour afficher les statuts
     socket.on('co',isSet=>{
         io.emit('co',names);
@@ -28,6 +29,7 @@ io.on('connection', (socket) => {
     //creation des objets utilisateurs
     socket.on('userName', name => {
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
+        name.socketId= socket.id;
         let bon=1
         for (let i=0;i<names.length;i++){
             if(name.email===names[i].email){

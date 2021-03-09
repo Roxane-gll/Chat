@@ -37,10 +37,12 @@
         let nameUser = document.getElementById('nameUser');
         let emailUser = document.getElementById('email');
         let liste= document.getElementById('liste');
+        let data= document.getElementById('data');
 
         //initialisation des formulaire
         nameUser.disabled = false;
         emailUser.disabled = false;
+        data.disabled=false;
         input.setAttribute("disabled", true);
 
         //liste des personnes et leurs status
@@ -50,7 +52,9 @@
         });
         //affichage de la liste
         socket.on('co', function (names){
+            console.log(names)
             if(liste.classList.contains('up')) {
+                
                 for (let i = 0; i < names.length; i++) {
                     if (user.childElementCount<names.length) {
                         var text = '';
@@ -106,11 +110,13 @@
                     'email':emailUser.value,
                     'nomUser':nameUser.value,
                     'image': 'https://www.gravatar.com/avatar/',
-                    'ligne':1
+                    'ligne':1,
+                    'socketId':0
                 }
                 socket.emit('userName', objetUser);
                 nameUser.setAttribute("disabled", true);
                 emailUser.setAttribute("disabled", true);
+                data.setAttribute("disabled", true);
                 input.disabled = false;
             }
         });
@@ -140,7 +146,6 @@
         //affichage des nom des utilisateurs et leurs statuts
         socket.on('userName', function (connect){
             let text='';
-            console.log(connect)
             if(connect.ligne===1){
                 text='is connected';
             }else{
