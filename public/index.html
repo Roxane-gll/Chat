@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 </head>
 <body>
+    <!--Boutton liste des personnes dans le chat et leurs status-->
     <button id="liste" class="up"> <i class="las la-arrow-right"></i> User</button>
+    <!--Formulaire d'inscription-->
     <ul id="user"></ul>
     <form id="userNameForm" action="">
         <label for="nameUser">Enter your name: </label>
@@ -15,12 +17,16 @@
         <input type="email" name="email" id="email" required><br>
         <button id="data">Your data</button>
     </form>
+    <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
     <form id="form" action="">
         <input id="input" required /><button>Send</button>
     </form>
-    <script src="../socket.io/socket.io.js"></script>
+    <!-- lien vers le socket.io-->
+    <script src="/socket.io/socket.io.js"></script>
+    <!--debut du script-->
     <script>
+        //variables à initialisées
         let socket = io();
 
         let messages = document.getElementById('messages');
@@ -32,14 +38,17 @@
         let emailUser = document.getElementById('email');
         let liste= document.getElementById('liste');
 
+        //initialisation des formulaire
+        nameUser.disabled = false;
+        emailUser.disabled = false;
+        input.setAttribute("disabled", true);
+
+        //liste des personnes et leurs status
         liste.addEventListener("click",()=>{
             socket.emit('co', 1);
 
         });
-
-        nameUser.disabled = false;
-        emailUser.disabled = false;
-        input.setAttribute("disabled", true);
+        //affichage de la liste
         socket.on('co', function (names){
             if(liste.classList.contains('up')) {
                 for (let i = 0; i < names.length; i++) {
@@ -70,6 +79,7 @@
 
         });
 
+        //envoi des messages
         form.addEventListener('submit', function(e) {
             let writing=document.querySelector('.writing');
             if(writing!==null){
@@ -88,6 +98,7 @@
             }
         });
 
+        //envoi des objets utilisateur
         userNameForm.addEventListener('submit', function(e) {
             e.preventDefault();
             if (nameUser.value) {
@@ -102,9 +113,8 @@
                 emailUser.setAttribute("disabled", true);
                 input.disabled = false;
             }
-
         });
-        let oneTime=1;
+        //texte lors de l'écriture d'un message
         input.addEventListener('input',function(e){
             let inputValue={
                 'nom':nameUser.value,
@@ -112,7 +122,7 @@
             }
             socket.emit('write',inputValue);
         });
-
+        //écriture du texte
         socket.on('write',function (inputV){
             let writing=document.querySelector('.writing');
             if(writing===null){
@@ -121,17 +131,15 @@
                 item.classList.add('writing');
                 messages.appendChild(item);
                 window.scrollTo(0, document.body.scrollHeight);
-                //oneTime=0;
             }
             if(inputV.keyUsed===null && input.value==='' && writing.classList.contains('writing')){
                 writing.classList.remove('writing');
                 writing.classList.add('hidden');
             }
-
         });
-
+        //affichage des nom des utilisateurs et leurs statuts
         socket.on('userName', function (connect){
-            var text='';
+            let text='';
             console.log(connect)
             if(connect.ligne===1){
                 text='is connected';
@@ -143,7 +151,7 @@
             user.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
-
+        //affichage des messages du chat
         socket.on('chat message', function(msg) {
             let writing=document.querySelector('.writing');
             if(writing!==null){

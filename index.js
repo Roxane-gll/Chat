@@ -1,27 +1,31 @@
+//varables
 const express = require('express');
 const app=express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
-var md5 = require('md5');
+const md5 = require('md5');
 let names=[];
 
+//http
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 app.use(express.static('public'));
 
+//node js côté serveur
 io.on('connection', (socket) => {
+    //objets des utilisateurs envoyer pour afficher les statuts
     socket.on('co',isSet=>{
         io.emit('co',names);
-
     })
 
+    //texte lors de l'écriture d'un message
     socket.on('write',input=>{
         io.emit('write',input);
-
     })
 
+    //creation des objets utilisateurs
     socket.on('userName', name => {
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
         let bon=1
@@ -43,13 +47,13 @@ io.on('connection', (socket) => {
         });
     });
 
+    //message du chat
     socket.on('chat message', msg => {
         var gravatar='';
         for (var i=0;i<names.length;i++){
             if(msg.nomUser===names[i].nomUser){
                 gravatar=names[i].image;
             }
-
         }
         var messageObjet={
             'name':msg.nomUser,
@@ -60,6 +64,7 @@ io.on('connection', (socket) => {
     });
 });
 
+//http
 http.listen(port, () => {
     console.log(`Socket.IO server running at http://localhost:${port}/`);
 });
