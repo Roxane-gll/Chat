@@ -16,6 +16,42 @@ body {
     box-sizing: border-box;
     backdrop-filter: blur(10px);
 }
+#form > button {
+    background: #333;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #fff;
+}
+
+#userNameForm{
+    background-color: rgba(255, 0, 0, 0.50);
+    padding: 5px;
+    height: 55px;
+    width: 30%;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+}
+
+#userNameForm>button{
+    background:rgba(255, 0, 0, 0.50);
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #000;
+    position: relative;
+    top: 5%;
+}
+
+#listAndUser{
+    position: fixed;
+    left: 50%;
+}
 
 input {
     border: none;
@@ -29,19 +65,9 @@ input:focus {
     outline: none;
 }
 
-#form > button {
-    background: #333;
-    border: none;
-    padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
-    outline: none;
-    color: #fff;
-}
-
 #messages {
     list-style-type: none;
-    margin: 0;
+    margin-top: 10px;
     padding: 0;
 }
 
@@ -71,21 +97,3 @@ input:focus {
     display:none;
 }
 
-#userNameForm{
-    background-color: rgba(255, 0, 0, 0.50);
-    padding: 5px;
-    height: 55px;
-    box-sizing: border-box;
-    backdrop-filter: blur(10px);
-    border-radius: 3px;
-}
-
-#userNameForm>button{
-    background:rgba(255, 0, 0, 0.50);
-    border: none;
-    padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
-    outline: none;
-    color: #000;
-}
