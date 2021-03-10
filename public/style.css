@@ -16,6 +16,7 @@ body {
     box-sizing: border-box;
     backdrop-filter: blur(10px);
 }
+
 #formMessage > button {
     background: #333;
     border: none;
@@ -27,7 +28,7 @@ body {
 }
 
 #userNameForm{
-    background-color: rgba(255, 0, 0, 0.50);
+    background-color: rgba(255, 0, 0, 0.5);
     padding: 5px;
     height: 55px;
     width: 30%;
@@ -52,7 +53,21 @@ body {
     position: absolute;
     left: 70%;
     top: 0%;
+}
 
+#pointConnectOrDisconnect{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+}
+
+
+.Connected{
+    background-color: #62ff00;
+}
+
+.disconnected{
+    background-color: #c31717;
 }
 
 input {
@@ -71,6 +86,7 @@ input:focus {
     list-style-type: none;
     margin-top: 10px;
     padding: 0;
+    width: 70%;
 }
 
 #messages > li {
@@ -78,7 +94,7 @@ input:focus {
 }
 
 .messMoi {
-    background-color: crimson;
+    text-align: right;
 }
 
 .imageProfil{
