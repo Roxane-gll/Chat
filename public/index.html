@@ -13,7 +13,7 @@
         <input id="nameUser" autocomplete="off" /><br>
         <label for="email">Enter your email: </label>
         <input type="email" name="email" id="email" required><br>
-        <button id="data">Your data</button>
+        <button id="data">Connection</button>
     </form>
     <!--Boutton liste des personnes dans le chat et leurs status-->
     <div id="listAndUser">
@@ -59,10 +59,15 @@
                 user.classList.add('visible');
                 user.classList.remove('hidden');
                 list.classList.remove('up');
+                console.log(list.firstElementChild)
+                list.firstElementChild.classList.remove('la-arrow-right');
+                list.firstElementChild.classList.add('la-arrow-down');
             }else{
                 user.classList.remove('visible');
                 user.classList.add('hidden');
                 list.classList.add('up');
+                list.firstElementChild.classList.add('la-arrow-right');
+                list.firstElementChild.classList.remove('la-arrow-down');
             }
 
         });

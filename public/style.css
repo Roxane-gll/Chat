@@ -5,7 +5,7 @@ body {
 }
 
 #formMessage {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 0, 0, 0.50);
     padding: 0.25rem;
     position: fixed;
     bottom: 0;
@@ -18,7 +18,7 @@ body {
 }
 
 #formMessage > button {
-    background: #333;
+    background: #000000;
     border: none;
     padding: 0 1rem;
     margin: 0.25rem;
@@ -28,23 +28,22 @@ body {
 }
 
 #userNameForm{
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.50);
     padding: 5px;
-    height: 55px;
-    width: 30%;
+    width: 240px;
     box-sizing: border-box;
     backdrop-filter: blur(10px);
     border-radius: 5px;
 }
 
 #userNameForm>button{
-    background:rgba(255, 0, 0, 0.50);
+    background:#000000;
     border: none;
-    padding: 0 1rem;
+    padding: 7px;
     margin: 0.25rem;
     border-radius: 3px;
     outline: none;
-    color: #000;
+    color: #ffffff;
     position: relative;
     top: 5%;
 }
@@ -52,7 +51,7 @@ body {
 #listAndUser{
     position: absolute;
     left: 70%;
-    top: 0px;
+    top: 0;
 }
 
 #pointConnectOrDisconnect{
@@ -61,6 +60,9 @@ body {
     border-radius: 50%;
 }
 
+#user>li{
+    list-style-type: none;
+}
 
 .Connected{
     background-color: #62ff00;
@@ -91,7 +93,6 @@ input:focus {
 
 #messages > li {
     padding: 10px 10px 10px 45px;
-    /*background-color: rgba(191, 0, 255,0.25);*/
 }
 
 .messageSend{
@@ -128,4 +129,22 @@ input:focus {
 .hidden{
     font-size: 0;
     display:none;
+}
+
+#list{
+    background: #000000;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #fff;
+}
+
+.la-arrow-right{
+    transition: transform 0.5s;
+}
+.la-arrow-down{
+    transform: rotate(360deg);
+    transition: transform 0.5s;
 }
