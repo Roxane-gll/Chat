@@ -15,7 +15,6 @@ app.use(express.static('public'));
 
 //node js côté serveur
 io.on('connection', (socket) => {
-    //console.log(socket.rooms);
     //objets des utilisateurs envoyer pour afficher les statuts
     socket.on('userConnection',isSet=>{
         io.emit('userConnection',names);

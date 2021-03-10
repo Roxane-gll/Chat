@@ -150,7 +150,8 @@
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.textContent =userLogin.nomUser +' : '+ text;
+                    item.innerHTML =`<button class="privateRoom">${userLogin.nomUser}</button>
+                        <p> :  ${text}</p>`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -169,7 +170,8 @@
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.textContent =userLogin.nomUser +' : '+ text;
+                    item.innerHTML =`<button class="privateRoom">${userLogin.nomUser}</button>
+                        <p> :  ${text}</p>`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
