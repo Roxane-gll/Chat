@@ -110,7 +110,8 @@
         input.addEventListener('input',function(e){
             let inputValue={
                 'pseudoWriting':nameUser.value,
-                'keyUsed':e.data
+                'keyUsed':e.data,
+                'writing':input.value
             }
             socket.emit('write',inputValue);
         });
@@ -131,7 +132,6 @@
         });
 
         socket.on('userConnection',function (names){
-
             console.log(names);
             if(user.childElementCount===0) {
                 names.forEach(userLogin=>{
@@ -144,8 +144,7 @@
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.innerHTML =`<button class="privateRoom">${userLogin.nameCurrentlyUsed}</button>
-                            <p> :  ${text}</p>`;
+                    item.textContent = userLogin.nameCurrentlyUsed+' : '+text;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -164,8 +163,7 @@
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.innerHTML =`<button class="privateRoom">${userLogin.nameCurrentlyUsed}</button>
-                            <p> :  ${text}</p>`;
+                    item.textContent = userLogin.nameCurrentlyUsed+' : '+text;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -204,16 +202,20 @@
             if (min<10) {min = "0" + min}
             let item = document.createElement('li');
             item.textContent =message.name +' : '+ message.message+'    '+hours+' : '+min;
+            let image=document.createElement('img');
+            image.src = message.image;
             if(message.name===nameUser.value){
                 console.log('marche')
-                item.classList.add("messMoi")
+                item.classList.add("messMoi");
+                image.classList.add('yourImageProfil');
+            }else{
+                image.classList.add('imageProfil');
             }
             messages.appendChild(item);
 
             window.scrollTo(0, document.body.scrollHeight);
-            let image=document.createElement('img');
-            image.src = message.image;
-            image.classList.add('imageProfil')
+
+
             messages.appendChild(image);
             window.scrollTo(0, document.body.scrollHeight);
 

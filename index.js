@@ -22,7 +22,19 @@ io.on('connection', (socket) => {
 
     //texte lors de l'écriture d'un message
     socket.on('write',input=>{
-        io.emit('write',input);
+        let writingId='';
+        if(input.writing.includes('@')){
+            names.forEach(whoIs=>{
+                if(input.pseudoWriting===whoIs.nameCurrentlyUsed){
+                    writingId=whoIs.socketId;
+                }
+                if(input.writing.includes('@'+whoIs.nameCurrentlyUsed)){
+                    io.to(whoIs.socketId).to(writingId).emit('write', input);
+                }
+            })
+        }else{
+            io.emit('write',input);
+        }
     })
 
     //creation des objets utilisateurs
@@ -52,17 +64,33 @@ io.on('connection', (socket) => {
     //message du chat
     socket.on('chat message', msg => {
         var gravatar='';
-        for (var i=0;i<names.length;i++){
-            if(msg.pseudo===names[i].nameCurrentlyUsed){
-                gravatar=names[i].image;
+        let idRoom='';
+        names.forEach(whoIs=>{
+            if(msg.pseudo===whoIs.nameCurrentlyUsed){
+                gravatar=whoIs.image;
+                idRoom=whoIs.socketId;
             }
+        })
+        if(msg.message.includes('@')){
+            names.forEach(searchValue=>{
+                if(msg.message.includes('@'+searchValue.nameCurrentlyUsed)){
+                    console.log('private');
+                    var messageObjet={
+                        'name':msg.pseudo,
+                        'image':gravatar,
+                        'message':msg.message
+                    };
+                    io.to(searchValue.socketId).to(idRoom).emit('chat message', messageObjet );
+                }
+            })
+        }else{
+            var messageObjet={
+                'name':msg.pseudo,
+                'image':gravatar,
+                'message':msg.message
+            };
+            io.emit('chat message', messageObjet );
         }
-        var messageObjet={
-            'name':msg.pseudo,
-            'image':gravatar,
-            'message':msg.message
-        };
-        io.emit('chat message', messageObjet );
     });
 });
 
