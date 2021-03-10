@@ -48,6 +48,7 @@
 
         //liste des personnes et leurs status
         liste.addEventListener("click",()=>{
+            socket.emit('userConnection',1);
             if(liste.classList.contains('up')) {
                 user.classList.add('visible');
                 user.classList.remove('hidden');
@@ -59,6 +60,11 @@
             }
 
         });
+
+        document.onload = () => {
+            socket.emit('userConnection',1);
+            console.log('names');
+        }
 
         //envoi des messages
         form.addEventListener('submit', function(e) {
@@ -121,8 +127,36 @@
                 writing.classList.add('hidden');
             }
         });
+
+        socket.on('userConnection',function (names){
+
+            console.log(names);
+            if(user.childElementCount>0) {
+                while (user.childElementCount!==0){
+                    user.firstChild.remove();
+                }
+            }
+            for (let i=0;i<names.length;i++){
+                let text='';
+                if(names[i].ligne===true){
+                    text='is connected';
+                }
+                if(names[i].ligne===false){
+                    text='is disconnected';
+                }
+                let item = document.createElement('li');
+                item.textContent =names[i].nomUser +' : '+ text;
+                user.appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+
+
+
+        });
+
         //affichage des nom des utilisateurs et leurs statuts
         socket.on('login', function (connect){
+
             let text='';
             if(connect.ligne===true){
                 text='is connected';
@@ -132,7 +166,7 @@
             }
             let item = document.createElement('li');
             item.textContent =connect.nomUser +' : '+ text;
-            user.appendChild(item);
+            messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
 
 

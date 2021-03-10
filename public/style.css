@@ -17,7 +17,7 @@ body {
     backdrop-filter: blur(10px);
 }
 
-#input {
+input {
     border: none;
     padding: 0 1rem;
     flex-grow: 1;
@@ -25,7 +25,7 @@ body {
     margin: 0.25rem;
 }
 
-#input:focus {
+input:focus {
     outline: none;
 }
 
@@ -69,4 +69,23 @@ body {
 .hidden{
     font-size: 0;
     display:none;
+}
+
+#userNameForm{
+    background-color: rgba(255, 0, 0, 0.50);
+    padding: 5px;
+    height: 55px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+    border-radius: 3px;
+}
+
+#userNameForm>button{
+    background:rgba(255, 0, 0, 0.50);
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #000;
 }
