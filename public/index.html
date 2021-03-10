@@ -210,13 +210,13 @@
                 image.classList.add('yourImageProfil');
             }else{
                 image.classList.add('imageProfil');
+                item.classList.add('messageSend');
             }
+
             messages.appendChild(item);
 
             window.scrollTo(0, document.body.scrollHeight);
-
-
-            messages.appendChild(image);
+            item.insertAdjacentElement("afterbegin",image)
             window.scrollTo(0, document.body.scrollHeight);
 
 
