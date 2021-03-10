@@ -49,8 +49,10 @@ body {
 }
 
 #listAndUser{
-    position: fixed;
-    left: 50%;
+    position: absolute;
+    left: 70%;
+    top: 0%;
+
 }
 
 input {

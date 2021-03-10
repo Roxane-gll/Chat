@@ -16,13 +16,16 @@
         <button id="data">Your data</button>
     </form>
     <!--Boutton liste des personnes dans le chat et leurs status-->
+    <!-- changer id -->
     <div id="listAndUser">
+        <!-- changer id -->
         <button id="liste" class="up"> <i class="las la-arrow-right"></i> User</button>
         <ul id="user"></ul>
     </div>
 
     <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
+    <!-- changer id -->
     <form id="form" action="">
         <input id="input" required /><button>Send</button>
     </form>
@@ -34,12 +37,14 @@
         let socket = io();
 
         let messages = document.getElementById('messages');
+        <!-- changer id -->
         let form = document.getElementById('form');
         let input = document.getElementById('input');
         let user = document.getElementById('user');
         let userNameForm = document.getElementById('userNameForm');
         let nameUser = document.getElementById('nameUser');
         let emailUser = document.getElementById('email');
+        <!-- changer id (list) -->
         let liste= document.getElementById('liste');
         let data= document.getElementById('data');
 
@@ -76,6 +81,7 @@
             e.preventDefault();
             if (input.value) {
                 var objetMess={
+                    <!-- changer mess/ nom en name -->
                     'mess':input.value,
                     'nomUser':nameUser.value,
                     'email':emailUser.value,
@@ -93,6 +99,7 @@
                     'email':emailUser.value,
                     'nomUser':nameUser.value,
                     'image': 'https://www.gravatar.com/avatar/',
+                    <!-- changer ligne en Anglais -->
                     'ligne':true,
                     'socketId':0
                 }
@@ -107,6 +114,7 @@
         //texte lors de l'écriture d'un message
         input.addEventListener('input',function(e){
             let inputValue={
+                <!-- changer nom en anglais -->
                 'nom':nameUser.value,
                 'keyUsed':e.data
             }
