@@ -52,7 +52,7 @@ body {
 #listAndUser{
     position: absolute;
     left: 70%;
-    top: 0%;
+    top: 0px;
 }
 
 #pointConnectOrDisconnect{
@@ -84,7 +84,7 @@ input:focus {
 
 #messages {
     list-style-type: none;
-    margin-top: 10px;
+    margin-top: 30px;
     padding: 0;
     width: 70%;
 }
