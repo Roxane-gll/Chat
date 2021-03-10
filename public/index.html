@@ -205,20 +205,20 @@
             if (hours<10) {hours = "0" + hours}
             if (min<10) {min = "0" + min}
             let item = document.createElement('li');
-            item.textContent =message.name +' : '+ message.message+'    '+hours+' : '+min;
             let image=document.createElement('img');
             image.src = message.image;
             if(message.name===nameUser.value){
                 console.log('marche')
+                item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
                 item.classList.add("messMoi");
                 image.classList.add('yourImageProfil');
             }else{
+                item.innerHTML =`${message.name}  :  ${message.message}<br>${hours} : ${min}`;
                 image.classList.add('imageProfil');
                 item.classList.add('messageSend');
             }
 
             messages.appendChild(item);
-
             window.scrollTo(0, document.body.scrollHeight);
             item.insertAdjacentElement("afterbegin",image)
             window.scrollTo(0, document.body.scrollHeight);
