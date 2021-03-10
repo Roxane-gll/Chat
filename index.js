@@ -23,6 +23,7 @@ io.on('connection', (socket) => {
     //texte lors de l'écriture d'un message
     socket.on('write',input=>{
         let writingId='';
+
         if(input.writing.includes('@')){
             names.forEach(whoIs=>{
                 if(input.pseudoWriting===whoIs.nameCurrentlyUsed){

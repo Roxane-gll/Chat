@@ -60,6 +60,10 @@ body {
     border-radius: 50%;
 }
 
+#user:disabled{
+    background-color: #454545;
+}
+
 #user>li{
     list-style-type: none;
 }

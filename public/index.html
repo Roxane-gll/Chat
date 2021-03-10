@@ -129,8 +129,7 @@
                 item.classList.add('writing');
                 messages.appendChild(item);
                 window.scrollTo(0, document.body.scrollHeight);
-            }
-            if(inputV.keyUsed===null && input.value==='' && writing.classList.contains('writing')){
+            }else if(inputV.keyUsed===null && inputV.writing==='' && writing.classList.contains('writing')){
                 writing.classList.remove('writing');
                 writing.classList.add('hidden');
             }
