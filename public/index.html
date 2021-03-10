@@ -61,10 +61,6 @@
 
         });
 
-        document.onload = () => {
-            socket.emit('userConnection',1);
-            console.log('names');
-        }
 
         //envoi des messages
         form.addEventListener('submit', function(e) {
@@ -131,26 +127,41 @@
         socket.on('userConnection',function (names){
 
             console.log(names);
-            if(user.childElementCount>0) {
+            if(user.childElementCount===0) {
+                names.forEach(userLogin=>{
+                    console.log(userLogin)
+                    let text=''
+                    if(userLogin.ligne===true){
+                        text='is connected'
+                    }
+                    if(userLogin.ligne===false){
+                        text='is disconnected';
+                    }
+                    let item = document.createElement('li');
+                    item.textContent =userLogin.nomUser +' : '+ text;
+                    user.appendChild(item);
+                    window.scrollTo(0, document.body.scrollHeight);
+                })
+
+            }else{
                 while (user.childElementCount!==0){
                     user.firstChild.remove();
                 }
+                names.forEach(userLogin=>{
+                    console.log(userLogin)
+                    let text=''
+                    if(userLogin.ligne===true){
+                        text='is connected'
+                    }
+                    if(userLogin.ligne===false){
+                        text='is disconnected';
+                    }
+                    let item = document.createElement('li');
+                    item.textContent =userLogin.nomUser +' : '+ text;
+                    user.appendChild(item);
+                    window.scrollTo(0, document.body.scrollHeight);
+                })
             }
-            for (let i=0;i<names.length;i++){
-                let text='';
-                if(names[i].ligne===true){
-                    text='is connected';
-                }
-                if(names[i].ligne===false){
-                    text='is disconnected';
-                }
-                let item = document.createElement('li');
-                item.textContent =names[i].nomUser +' : '+ text;
-                user.appendChild(item);
-                window.scrollTo(0, document.body.scrollHeight);
-            }
-
-
 
         });
 
