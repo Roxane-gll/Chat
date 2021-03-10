@@ -35,7 +35,8 @@ io.on('connection', (socket) => {
         for (let i=0;i<names.length;i++){
             if(name.email===names[i].email){
                 bon=0
-                names[i].nomUser=name.nomUser
+                names.splice(i,1);
+                names.push(name);
             }
         }
         if(bon===1){
