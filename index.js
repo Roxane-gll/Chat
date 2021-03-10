@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
     socket.on('login', name => {
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
         name.socketId= socket.id;
-        console.log(name.ligne);
+        console.log(name.online);
         let bon=1
         for (let i=0;i<names.length;i++){
             if(name.email===names[i].email){
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
         console.log(names);
         io.emit('login', name);
         socket.on('disconnect', () => {
-            name.ligne=false;
+            name.online=false;
             io.emit('login', name);
         });
     });
@@ -53,14 +53,14 @@ io.on('connection', (socket) => {
     socket.on('chat message', msg => {
         var gravatar='';
         for (var i=0;i<names.length;i++){
-            if(msg.nomUser===names[i].nomUser){
+            if(msg.pseudo===names[i].nameCurrentlyUsed){
                 gravatar=names[i].image;
             }
         }
         var messageObjet={
-            'name':msg.nomUser,
+            'name':msg.pseudo,
             'image':gravatar,
-            'message':msg.mess
+            'message':msg.message
         };
         io.emit('chat message', messageObjet );
     });

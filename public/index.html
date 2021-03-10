@@ -16,17 +16,14 @@
         <button id="data">Your data</button>
     </form>
     <!--Boutton liste des personnes dans le chat et leurs status-->
-    <!-- changer id -->
     <div id="listAndUser">
-        <!-- changer id -->
-        <button id="liste" class="up"> <i class="las la-arrow-right"></i> User</button>
+        <button id="list" class="up"> <i class="las la-arrow-right"></i> User</button>
         <ul id="user"></ul>
     </div>
 
     <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
-    <!-- changer id -->
-    <form id="form" action="">
+    <form id="formMessage" action="">
         <input id="input" required /><button>Send</button>
     </form>
     <!-- lien vers le socket.io-->
@@ -37,15 +34,13 @@
         let socket = io();
 
         let messages = document.getElementById('messages');
-        <!-- changer id -->
-        let form = document.getElementById('form');
+        let form = document.getElementById('formMessage');
         let input = document.getElementById('input');
         let user = document.getElementById('user');
         let userNameForm = document.getElementById('userNameForm');
         let nameUser = document.getElementById('nameUser');
         let emailUser = document.getElementById('email');
-        <!-- changer id (list) -->
-        let liste= document.getElementById('liste');
+        let list= document.getElementById('list');
         let data= document.getElementById('data');
 
         //initialisation des formulaire
@@ -53,19 +48,19 @@
         emailUser.disabled = false;
         data.disabled=false;
         input.setAttribute("disabled", true);
-        liste.setAttribute("disabled", true);
+        list.setAttribute("disabled", true);
 
         //liste des personnes et leurs status
-        liste.addEventListener("click",()=>{
+        list.addEventListener("click",()=>{
             socket.emit('userConnection',1);
-            if(liste.classList.contains('up')) {
+            if(list.classList.contains('up')) {
                 user.classList.add('visible');
                 user.classList.remove('hidden');
-                liste.classList.remove('up');
+                list.classList.remove('up');
             }else{
                 user.classList.remove('visible');
                 user.classList.add('hidden');
-                liste.classList.add('up');
+                list.classList.add('up');
             }
 
         });
@@ -81,9 +76,8 @@
             e.preventDefault();
             if (input.value) {
                 var objetMess={
-                    <!-- changer mess/ nom en name -->
-                    'mess':input.value,
-                    'nomUser':nameUser.value,
+                    'message':input.value,
+                    'pseudo':nameUser.value,
                     'email':emailUser.value,
                 }
                 socket.emit('chat message', objetMess);
@@ -97,10 +91,9 @@
             if (nameUser.value) {
                 var objetUser={
                     'email':emailUser.value,
-                    'nomUser':nameUser.value,
+                    'nameCurrentlyUsed':nameUser.value,
                     'image': 'https://www.gravatar.com/avatar/',
-                    <!-- changer ligne en Anglais -->
-                    'ligne':true,
+                    'online':true,
                     'socketId':0
                 }
                 socket.emit('login', objetUser);
@@ -108,14 +101,13 @@
                 emailUser.setAttribute("disabled", true);
                 data.setAttribute("disabled", true);
                 input.disabled = false;
-                liste.disabled = false;
+                list.disabled = false;
             }
         });
         //texte lors de l'écriture d'un message
         input.addEventListener('input',function(e){
             let inputValue={
-                <!-- changer nom en anglais -->
-                'nom':nameUser.value,
+                'pseudoWriting':nameUser.value,
                 'keyUsed':e.data
             }
             socket.emit('write',inputValue);
@@ -125,7 +117,7 @@
             let writing=document.querySelector('.writing');
             if(writing===null){
                 let item = document.createElement('li');
-                item.textContent =inputV.nom+' is writing';
+                item.textContent =inputV.pseudoWriting+' is writing';
                 item.classList.add('writing');
                 messages.appendChild(item);
                 window.scrollTo(0, document.body.scrollHeight);
@@ -143,15 +135,15 @@
                 names.forEach(userLogin=>{
                     console.log(userLogin)
                     let text=''
-                    if(userLogin.ligne===true){
+                    if(userLogin.online===true){
                         text='is connected'
                     }
-                    if(userLogin.ligne===false){
+                    if(userLogin.online===false){
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.innerHTML =`<button class="privateRoom">${userLogin.nomUser}</button>
-                        <p> :  ${text}</p>`;
+                    item.innerHTML =`<button class="privateRoom">${userLogin.nameCurrentlyUsed}</button>
+                            <p> :  ${text}</p>`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -163,15 +155,15 @@
                 names.forEach(userLogin=>{
                     console.log(userLogin)
                     let text=''
-                    if(userLogin.ligne===true){
+                    if(userLogin.online===true){
                         text='is connected'
                     }
-                    if(userLogin.ligne===false){
+                    if(userLogin.online===false){
                         text='is disconnected';
                     }
                     let item = document.createElement('li');
-                    item.innerHTML =`<button class="privateRoom">${userLogin.nomUser}</button>
-                        <p> :  ${text}</p>`;
+                    item.innerHTML =`<button class="privateRoom">${userLogin.nameCurrentlyUsed}</button>
+                            <p> :  ${text}</p>`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -183,14 +175,14 @@
         socket.on('login', function (connect){
 
             let text='';
-            if(connect.ligne===true){
+            if(connect.online===true){
                 text='is connected';
             }
-            if(connect.ligne===false){
+            if(connect.online===false){
                 text='is disconnected';
             }
             let item = document.createElement('li');
-            item.textContent =connect.nomUser +' : '+ text;
+            item.textContent =connect.nameCurrentlyUsed +' : '+ text;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
 
@@ -227,6 +219,6 @@
 
         });
 
-    </script>
+</script>
 </body>
 </html>
