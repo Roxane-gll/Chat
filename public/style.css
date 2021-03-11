@@ -104,7 +104,6 @@ input:focus {
     margin: 5px;
     border-radius: 20px 20px 20px 0;
     word-wrap: break-word;
-    width: 300px;
     background-color: rgba(191, 0, 255,0.25);
 
 
@@ -112,9 +111,9 @@ input:focus {
 
 .messMoi {
     margin: 5px;
-    border-radius: 20px 20px 20px 0;
+    border-radius: 20px 20px 0 20px;
     word-wrap: break-word;
-    width: 300px;
+    text-align: right;
     background-color: rgba(255, 0, 0,0.25);
 }
 
