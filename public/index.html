@@ -68,7 +68,6 @@
                 list.firstElementChild.classList.add('la-arrow-right');
                 list.firstElementChild.classList.remove('la-arrow-down');
             }
-
         });
 
 
@@ -135,22 +134,6 @@
         });
         //Permet d'afficher les personnes connecté ou déconnecté
         socket.on('userConnection',function (names){
-            if(user.childElementCount===0) {
-                names.forEach(userLogin=>{
-                    let classChosen=''
-                    if(userLogin.online===true){
-                        classChosen='Connected'
-                    }
-                    if(userLogin.online===false){
-                        classChosen='disconnected';
-                    }
-                    let item = document.createElement('li');
-                    item.innerHTML = `<div id="pointConnectOrDisconnect" class=${classChosen}></div>${userLogin.nameCurrentlyUsed}`;
-                    user.appendChild(item);
-                    window.scrollTo(0, document.body.scrollHeight);
-                })
-
-            }else{
                 while (user.childElementCount!==0){
                     user.firstChild.remove();
                 }
@@ -167,8 +150,6 @@
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
-            }
-
         });
 
         //affichage des nom des utilisateurs et leurs statuts
@@ -185,9 +166,8 @@
             item.textContent =connect.nameCurrentlyUsed +' : '+ text;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
-
-
         });
+
         //affichage des messages du chat
         socket.on('chat message', function(message) {
             let writing=document.querySelector('.writing');
