@@ -221,12 +221,42 @@
             let image=document.createElement('img');
             image.src = message.image;
             if(message.name===nameUser.value){
-                console.log('marche')
-                item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                if(message.message.includes('img')){
+                    let imageInsert=message.message.replace("img: ","");
+                    item.innerHTML =`(You) ${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
+                }else if (message.message.includes('vid')){
+                    let videoInsert=message.message.replace("vid: ","");
+                    let youtubeLink=videoInsert.replace("watch?v=","embed/")
+                    console.log(videoInsert)
+                    item.innerHTML =`(You) ${message.name}  :   <iframe
+                                                                src="${youtubeLink}">
+                                                                </iframe>
+                                                                <br>${hours} : ${min}`;
+                }else if(message.message.includes('mus:')){
+                    let audioInsert=message.message.replace("mus: ","");
+                    item.innerHTML =`(You) ${message.name}  :  <audio controls="controls">
+                                                                <source src="${audioInsert}" type="audio/mpeg">
+                                                               </audio>
+                                                               <br>${hours} : ${min}`;
+                }else{
+                    item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                }
                 item.classList.add("messMoi");
                 image.classList.add('yourImageProfil');
             }else{
-                item.innerHTML =`${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                if(message.message.includes('img')){
+                    let imageInsert=message.message.replace("img: ","");
+                    item.innerHTML =`(You) ${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
+                }else if (message.message.includes('vid')){
+                    let videoInsert=message.message.replace("vid: ","");
+                    item.innerHTML =`(You) ${message.name}  :  <video src="${videoInsert}"> <br>${hours} : ${min}`;
+                }else if(message.message.includes('mus')){
+                    let audioInsert=message.message.replace("mus: ","");
+
+                    item.innerHTML =`(You) ${message.name}  :  <audio src="${audioInsert}"> <br>${hours} : ${min}`;
+                }else{
+                    item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                }
                 image.classList.add('imageProfil');
                 item.classList.add('messageSend');
             }

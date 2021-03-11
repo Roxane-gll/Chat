@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
 
     //message du chat
     socket.on('chat message', msg => {
-        var gravatar='';
+        let gravatar='';
         let idRoom='';
         names.forEach(whoIs=>{
             if(msg.pseudo===whoIs.nameCurrentlyUsed){
