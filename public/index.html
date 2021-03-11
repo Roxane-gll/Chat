@@ -44,8 +44,6 @@
         let emailUser = document.getElementById('email');
         let list= document.getElementById('list');
         let data= document.getElementById('data');
-        let buttonListCommand=document.getElementById('buttonListCommand');
-        let listOfCommand=document.getElementById('listOfCommand');
 
         //initialisation des formulaires
         nameUser.disabled = false;
@@ -61,7 +59,6 @@
                 user.classList.add('visible');
                 user.classList.remove('hidden');
                 list.classList.remove('up');
-                console.log(list.firstElementChild)
                 list.firstElementChild.classList.remove('la-arrow-right');
                 list.firstElementChild.classList.add('la-arrow-down');
             }else{
@@ -74,10 +71,6 @@
 
         });
 
-        buttonListCommand.addEventListener("click",()=>{
-            listOfCommand.classList.toggle('hiddenListCommand');
-            listOfCommand.classList.toggle('listCommandVisible');
-        });
 
         //envoi des messages
         form.addEventListener('submit', function(e) {
@@ -162,7 +155,6 @@
                     user.firstChild.remove();
                 }
                 names.forEach(userLogin=>{
-                    console.log(userLogin)
                     let classChosen=''
                     if(userLogin.online===true){
                         classChosen='Connected'
@@ -203,67 +195,57 @@
                 writing.classList.remove('writing');
                 writing.classList.add('hidden');
             }
+            //définition de la l'heure au moment de l'envoi du message
             let date =new Date()
             let hours=date.getHours()
             let min= date.getMinutes()
             if (hours<10) {hours = "0" + hours}
             if (min<10) {min = "0" + min}
+
+            let userExp='';
+            let messageClass='';
+            let imageClass='';
+            if(message.name===nameUser.value){
+                userExp='(You) ';
+                messageClass='messMoi';
+                imageClass='yourImageProfil';
+            }else{
+                userExp='';
+                messageClass='messageSend';
+                imageClass='imageProfil';
+            }
+            //création et contenu du message
             let item = document.createElement('li');
             let image=document.createElement('img');
             image.src = message.image;
-            if(message.name===nameUser.value){
-                if(message.type==='img'){
-                    item.innerHTML =`(You) ${message.name} :<img width="400" height="content-box" src="${message.message}"> <br>${hours} : ${min}`;
-                }else if (message.type==='youtube'){
-                    let youtubeLink=message.message.replace("watch?v=","embed/")
-                    item.innerHTML =`(You) ${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
-                }else if (message.type==='vimeo'){
-                    let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
-                    item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
-                }else if(message.type==='mus'){
-                    item.innerHTML =`(You) ${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}<br>${hours} : ${min}`;
-                }else if(message.type==='web'){
-                    item.innerHTML =`(You) ${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.twitterImage}">
-                                                             <div class="textWebsite"><p class="siteNameWebsite">${message.message.twitterSiteName}</p><br>
-                                                             <a class="linkWebsite" src="${message.message.twitterUrl}">${message.message.twitterTitle}</a><br>
-                                                             <p class="descriptionWebsite">${message.message.twitterDescription}</p></div> </div><br>${hours} : ${min}`;
-                }else{
-                    item.innerHTML =`(You) ${message.name} : ${message.message}<br>${hours} : ${min}`;
-                }
-                item.classList.add("messMoi");
-                image.classList.add('yourImageProfil');
-            }else{
-                if(message.type==='img'){
-                    item.innerHTML =`${message.name} :<img width="300" height="content-box" src="${message.message}"> <br>${hours} : ${min}`;
-                }else if (message.type==='youtube'){
-                    let youtubeLink=message.message.replace("watch?v=","embed/")
-                    item.innerHTML =`${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
-                }else if (message.type==='vimeo'){
-                    let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
-                    item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
-                }else if(message.type==='mus'){
-                    item.innerHTML =`${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
-                }else if(message.type==='web'){
-                    item.innerHTML =`${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.twitterImage}">
-                                                             <div class="textWebsite"><p class="siteNameWebsite">${message.message.twitterSiteName}</p><br>
-                                                             <a class="linkWebsite" src="${message.message.twitterUrl}">${message.message.twitterTitle}</a><br>
-                                                             <p class="descriptionWebsite">${message.message.twitterDescription}</p></div> </div><br>${hours} : ${min}`;
-                }else{
-                    item.innerHTML =`${message.name} : ${message.message}<br>${hours} : ${min}`;
-                }
-                image.classList.add('imageProfil');
-                item.classList.add('messageSend');
-            }
 
+            //selon le type de message (image, video, son ou site web)
+            if(message.type==='img'){
+                item.innerHTML =`${userExp}${message.name} :<img class="imageSend" src="${message.message}"> <br>${hours} : ${min}`;
+            }else if (message.type==='youtube'){
+                let youtubeLink=message.message.replace("watch?v=","embed/")
+                item.innerHTML =`${userExp}${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
+            }else if (message.type==='vimeo'){
+                let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
+                item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
+            }else if(message.type==='mus'){
+                item.innerHTML =`${userExp}${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}<br>${hours} : ${min}`;
+            }else if(message.type==='web'){
+                item.innerHTML =`${userExp}${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.image}">
+                                                             <div class="textWebsite"><p class="siteNameWebsite">${message.message.siteName}</p><br>
+                                                             <a class="linkWebsite" src="${message.message.url}">${message.message.title}</a><br>
+                                                             <p class="descriptionWebsite">${message.message.description}</p></div> </div><br>${hours} : ${min}`;
+            }else{
+                item.innerHTML =`${userExp}${message.name} : ${message.message}<br>${hours} : ${min}`;
+            }
+            item.classList.add(messageClass);
+            image.classList.add(imageClass);
+            //insertion su message dans la liste
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
             item.insertAdjacentElement("afterbegin",image)
             window.scrollTo(0, document.body.scrollHeight);
-
-
-
         });
-
 </script>
 </body>
 </html>
