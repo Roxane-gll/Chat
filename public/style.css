@@ -31,6 +31,7 @@ body {
     background-color: rgba(255, 0, 0, 0.50);
     padding: 5px;
     width: 240px;
+    height: 145px;
     box-sizing: border-box;
     backdrop-filter: blur(10px);
     border-radius: 5px;
@@ -41,7 +42,7 @@ body {
     border: none;
     padding: 7px;
     margin: 0.25rem;
-    border-radius: 3px;
+    border-radius: 10px;
     outline: none;
     color: #ffffff;
     position: relative;
@@ -58,10 +59,16 @@ body {
     height: 15px;
     width: 15px;
     border-radius: 50%;
+    display: inline-grid;
+    margin-right: 5px;
 }
 
-#user:disabled{
-    background-color: #454545;
+#list:disabled{
+    background-color: #7a7a7a;
+}
+
+#data:disabled{
+    background-color: #7a7a7a;
 }
 
 #user>li{
@@ -69,32 +76,41 @@ body {
 }
 
 .Connected{
-    background-color: #62ff00;
+    background-color: #9fff63;
 }
 
 .disconnected{
-    background-color: #c31717;
+    background-color: #ff6666;
 }
 
 #listOfCommand{
-    background:rgba(255, 0, 0, 0.50) ;
+    list-style-type: none;
+    padding: 10px;
     position: absolute;
-    border-radius: 3px;
-    top: 0%;
+    border-radius: 10px;
+    top: 25px;
     left: 245px;
-    height: 137px;
-    width: 500px;
+    transition: all 0.5s;
 }
 
-#columnListOfCommand1{
-    position: absolute;
-    left: 2%;
+#buttonListCommand{
+    background:#000000;
+    border: none;
+    padding: 7px;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #ffffff;
+    position:absolute;
+    left: 245px;
+    top:0
 }
 
-#columnListOfCommand2{
-    position: absolute;
-    left: 240px;
-    text-align: left;
+.listCommandVisible{
+    font-size: 13px;
+    background:rgba(255, 0, 0, 0.50);
+    height: 86.5px;
+    width: 335px;
 }
 
 input {
@@ -126,8 +142,6 @@ input:focus {
     border-radius: 20px 20px 20px 0;
     word-wrap: break-word;
     background-color: rgba(191, 0, 255,0.25);
-
-
 }
 
 .messMoi {
@@ -161,8 +175,14 @@ input:focus {
 }
 
 .hidden{
+    display: none;
+}
+
+.hiddenListCommand{
     font-size: 0;
-    display:none;
+    height: 0;
+    width: 0;
+    background-color: transparent;
 }
 
 #list{

@@ -19,27 +19,23 @@
     <div id="listAndUser">
         <button id="list" class="up"> <i class="las la-arrow-right"></i> User</button>
         <ul id="user">
-            <div id="pointConnectOrDisconnect" class=""></div>
+
         </ul>
     </div>
     <!--Liste de commande pour l'utilisateur-->
-    <div id="listOfCommand">
-        <div id="columnListOfCommand1">
-            <p div="commandHelp">@[pseudo] : Discution privée</p>
-            <p div="commandHelp">@[pseudo] : Afficher une image</p>
-            <p div="commandHelp">@[pseudo] : Mettre une vidéo</p>
-        </div>
-        <div id="columnListOfCommand2">
-            <p div="commandHelp">@[pseudo] : Mettre un MP3</p>
-            <p div="commandHelp">@[pseudo] : discution privée</p>
-            <p div="commandHelp">@[pseudo] : discution privée</p>
-        </div>
-    </div>
+    <button id="buttonListCommand">Liste des commandes</button>
+    <ul id="listOfCommand" class="hiddenListCommand">
+        <li class="commandHelp">'@[pseudo]'+message à envoyer : Discution privée</li>
+        <li class="commandHelp">'img: '+url de l'image : Afficher une image</li>
+        <li class="commandHelp">'youtubeVid: '+url de la vidéo : Mettre une vidéo youtube</li>
+        <li class="commandHelp">'vimeoVid: '+url de la vidéo : Mettre une vidéo vimeo</li>
+        <li class="commandHelp">'mus: '+url du son : Mettre un MP3</li>
+    </ul>
 
     <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
     <form id="formMessage" action="">
-        <input id="input" required /><button>Send</button>
+        <input id="input" required /><button id="send">Send</button>
     </form>
     <!-- lien vers le socket.io-->
     <script src="/socket.io/socket.io.js"></script>
@@ -57,6 +53,8 @@
         let emailUser = document.getElementById('email');
         let list= document.getElementById('list');
         let data= document.getElementById('data');
+        let buttonListCommand=document.getElementById('buttonListCommand');
+        let listOfCommand=document.getElementById('listOfCommand');
 
         //initialisation des formulaire
         nameUser.disabled = false;
@@ -85,6 +83,10 @@
 
         });
 
+        buttonListCommand.addEventListener("click",()=>{
+            listOfCommand.classList.toggle('hiddenListCommand');
+            listOfCommand.classList.toggle('listCommandVisible');
+        });
 
         //envoi des messages
         form.addEventListener('submit', function(e) {
@@ -152,16 +154,15 @@
             console.log(names);
             if(user.childElementCount===0) {
                 names.forEach(userLogin=>{
-                    console.log(userLogin)
-                    let text=''
+                    let classChosen=''
                     if(userLogin.online===true){
-                        text='is connected'
+                        classChosen='Connected'
                     }
                     if(userLogin.online===false){
-                        text='is disconnected';
+                        classChosen='disconnected';
                     }
                     let item = document.createElement('li');
-                    item.textContent = userLogin.nameCurrentlyUsed+' : '+text;
+                    item.innerHTML = `<div id="pointConnectOrDisconnect" class=${classChosen}></div>${userLogin.nameCurrentlyUsed}`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -172,15 +173,15 @@
                 }
                 names.forEach(userLogin=>{
                     console.log(userLogin)
-                    let text=''
+                    let classChosen=''
                     if(userLogin.online===true){
-                        text='is connected'
+                        classChosen='Connected'
                     }
                     if(userLogin.online===false){
-                        text='is disconnected';
+                        classChosen='disconnected';
                     }
                     let item = document.createElement('li');
-                    item.textContent = userLogin.nameCurrentlyUsed+' : '+text;
+                    item.innerHTML = `<div id="pointConnectOrDisconnect" class=${classChosen}></div>${userLogin.nameCurrentlyUsed}`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -223,39 +224,41 @@
             if(message.name===nameUser.value){
                 if(message.message.includes('img')){
                     let imageInsert=message.message.replace("img: ","");
-                    item.innerHTML =`(You) ${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
+                    item.innerHTML =`(You) ${message.name} :<img src="${imageInsert}"> <br>${hours} : ${min}`;
                 }else if (message.message.includes('vid')){
                     let videoInsert=message.message.replace("vid: ","");
                     let youtubeLink=videoInsert.replace("watch?v=","embed/")
                     console.log(videoInsert)
-                    item.innerHTML =`(You) ${message.name}  :   <iframe
-                                                                src="${youtubeLink}">
-                                                                </iframe>
-                                                                <br>${hours} : ${min}`;
+                    item.innerHTML =`(You) ${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
+                }else if (message.message.includes('vimeoVid')){
+                    let videoVimeoInsert=message.message.replace("vimeoVid: ","");
+                    let vimeoLink=videoVimeoInsert.replace("vimeo.com","player.vimeo.com/video")
+                    item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
                 }else if(message.message.includes('mus:')){
                     let audioInsert=message.message.replace("mus: ","");
-                    item.innerHTML =`(You) ${message.name}  :  <audio controls="controls">
-                                                                <source src="${audioInsert}" type="audio/mpeg">
-                                                               </audio>
-                                                               <br>${hours} : ${min}`;
+                    item.innerHTML =`(You) ${message.name} : <audio controls="controls"> <source src="${audioInsert}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
                 }else{
-                    item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                    item.innerHTML =`(You) ${message.name} : ${message.message}<br>${hours} : ${min}`;
                 }
                 item.classList.add("messMoi");
                 image.classList.add('yourImageProfil');
             }else{
                 if(message.message.includes('img')){
                     let imageInsert=message.message.replace("img: ","");
-                    item.innerHTML =`(You) ${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
-                }else if (message.message.includes('vid')){
-                    let videoInsert=message.message.replace("vid: ","");
-                    item.innerHTML =`(You) ${message.name}  :  <video src="${videoInsert}"> <br>${hours} : ${min}`;
+                    item.innerHTML =`${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
+                }else if (message.message.includes('youtubeVid')){
+                    let videoInsert=message.message.replace("youtubeVid: ","");
+                    let youtubeLink=videoInsert.replace("watch?v=","embed/")
+                    item.innerHTML =`${message.name}  :   <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
+                }else if (message.message.includes('vimeoVid')){
+                    let videoVimeoInsert=message.message.replace("vimeoVid: ","");
+                    let vimeoLink=videoVimeoInsert.replace("vimeo.com","player.vimeo.com/video")
+                    item.innerHTML =`${message.name}  :   <iframe src="${vimeoLink}"></iframe><br>${hours} : ${min}`;
                 }else if(message.message.includes('mus')){
                     let audioInsert=message.message.replace("mus: ","");
-
-                    item.innerHTML =`(You) ${message.name}  :  <audio src="${audioInsert}"> <br>${hours} : ${min}`;
+                    item.innerHTML =`${message.name}  : <audio controls="controls"> <source src="${audioInsert}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
                 }else{
-                    item.innerHTML =`(You) ${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                    item.innerHTML =`${message.name}  :  ${message.message}<br>${hours} : ${min}`;
                 }
                 image.classList.add('imageProfil');
                 item.classList.add('messageSend');
@@ -273,3 +276,5 @@
 </script>
 </body>
 </html>
+
+
