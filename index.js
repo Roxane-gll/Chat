@@ -43,19 +43,17 @@ io.on('connection', (socket) => {
     socket.on('login', name => {
         name.image='https://www.gravatar.com/avatar/'+md5(name.email.toLowerCase());
         name.socketId= socket.id;
-        console.log(name.online);
-        let bon=1
+        let emailFree=1
         for (let i=0;i<names.length;i++){
             if(name.email===names[i].email){
-                bon=0
+                emailFree=0
                 names.splice(i,1);
                 names.push(name);
             }
         }
-        if(bon===1){
+        if(emailFree===1){
             names.push(name);
         }
-        console.log(names);
         io.emit('login', name);
         socket.on('disconnect', () => {
             name.online=false;
@@ -65,7 +63,7 @@ io.on('connection', (socket) => {
 
     //message du chat
     socket.on('chat message', msg => {
-        var web={};
+        let web={};
         let gravatar='';
         let idRoom='';
         let type='';
@@ -76,7 +74,7 @@ io.on('connection', (socket) => {
             }
         })
 
-
+        //Permet de poster des images, des fichiers mp3, des vidéos Youtube ou Viméo et des pages internets
         if(msg.message.includes('image')||msg.message.includes('jpg')||msg.message.includes('jpeg')){
             type='img';
         }else if(msg.message.includes('mp3')){
@@ -89,28 +87,25 @@ io.on('connection', (socket) => {
             type='web';
             const options = { url: msg.message };
             ogs(options, (error, results, response) => {
-                console.log('error:', error);
-                console.log('results:', results);
                 if(results.ogImage!==undefined && results.ogSiteName!==undefined){
                     web={
-                        'twitterSiteName':results.ogSiteName,
-                        'twitterUrl':msg.message,
-                        'twitterTitle':results.ogTitle,
-                        'twitterDescription':results.ogDescription,
-                        'twitterImage':results.ogImage.url
+                        'siteName':results.ogSiteName,
+                        'url':msg.message,
+                        'title':results.ogTitle,
+                        'description':results.ogDescription,
+                        'image':results.ogImage.url
                     }
                 }else{
                     web={
-                        'twitterCard':results.ogTitle,
-                        'twitterSiteName':'',
-                        'twitterUrl':msg.message,
-                        'twitterTitle':results.ogTitle,
-                        'twitterDescription':results.ogDescription,
-                        'twitterImage':''
+                        'siteName':'',
+                        'url':msg.message,
+                        'title':results.ogTitle,
+                        'description':results.ogDescription,
+                        'image':'',
+                        'card':results.ogTitle,
                     }
                 }
 
-                console.log('results:', results);
                 let messageObjet={
                     'name':msg.pseudo,
                     'image':gravatar,
@@ -118,12 +113,12 @@ io.on('connection', (socket) => {
                     'type':type
                 };
                 io.emit('chat message', messageObjet );
-                console.log(web)
             });
 
          }else{
             type='message';
         }
+        //Permet d'écrire des messages privée à un autre utilisateur avec "@"
         if(msg.message.includes('@')){
             names.forEach(searchValue=>{
                 if(msg.message.includes('@'+searchValue.nameCurrentlyUsed)){
@@ -138,10 +133,8 @@ io.on('connection', (socket) => {
                 }
             })
         }else{
-            console.log(type)
-            if(type==='web'){
-                console.log('its web')
-            }else{
+
+            if(type!=='web'){
                 let messageObjet={
                     'name':msg.pseudo,
                     'image':gravatar,

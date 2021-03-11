@@ -22,15 +22,6 @@
 
         </ul>
     </div>
-    <!--Liste de commande pour l'utilisateur-->
-    <button id="buttonListCommand">Liste des commandes</button>
-    <ul id="listOfCommand" class="hiddenListCommand">
-        <li class="commandHelp">'@[pseudo]'+message à envoyer : Discution privée</li>
-        <li class="commandHelp">'img: '+url de l'image : Afficher une image</li>
-        <li class="commandHelp">'youtubeVid: '+url de la vidéo : Mettre une vidéo youtube</li>
-        <li class="commandHelp">'vimeoVid: '+url de la vidéo : Mettre une vidéo vimeo</li>
-        <li class="commandHelp">'mus: '+url du son : Mettre un MP3</li>
-    </ul>
 
     <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
@@ -56,7 +47,7 @@
         let buttonListCommand=document.getElementById('buttonListCommand');
         let listOfCommand=document.getElementById('listOfCommand');
 
-        //initialisation des formulaire
+        //initialisation des formulaires
         nameUser.disabled = false;
         emailUser.disabled = false;
         data.disabled=false;
@@ -149,9 +140,8 @@
                 writing.classList.add('hidden');
             }
         });
-
+        //Permet d'afficher les personnes connecté ou déconnecté
         socket.on('userConnection',function (names){
-            console.log(names);
             if(user.childElementCount===0) {
                 names.forEach(userLogin=>{
                     let classChosen=''
