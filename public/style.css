@@ -76,6 +76,27 @@ body {
     background-color: #c31717;
 }
 
+#listOfCommand{
+    background:rgba(255, 0, 0, 0.50) ;
+    position: absolute;
+    border-radius: 3px;
+    top: 0%;
+    left: 245px;
+    height: 137px;
+    width: 500px;
+}
+
+#columnListOfCommand1{
+    position: absolute;
+    left: 2%;
+}
+
+#columnListOfCommand2{
+    position: absolute;
+    left: 240px;
+    text-align: left;
+}
+
 input {
     border: none;
     padding: 0 1rem;
