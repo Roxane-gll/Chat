@@ -5,6 +5,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
 const md5 = require('md5');
+const ogs = require('open-graph-scraper');
 let names=[];
 
 //http
@@ -64,33 +65,91 @@ io.on('connection', (socket) => {
 
     //message du chat
     socket.on('chat message', msg => {
+        var web={};
         let gravatar='';
         let idRoom='';
+        let type='';
         names.forEach(whoIs=>{
             if(msg.pseudo===whoIs.nameCurrentlyUsed){
                 gravatar=whoIs.image;
                 idRoom=whoIs.socketId;
             }
         })
+
+
+        if(msg.message.includes('image')||msg.message.includes('jpg')||msg.message.includes('jpeg')){
+            type='img';
+        }else if(msg.message.includes('mp3')){
+            type='mus';
+        }else if(msg.message.includes('youtube')){
+            type='youtube';
+        }else if(msg.message.includes('vimeo')){
+            type='vimeo';
+        }else if(msg.message.includes('https')){
+            type='web';
+            const options = { url: msg.message };
+            ogs(options, (error, results, response) => {
+                console.log('error:', error);
+                console.log('results:', results);
+                if(results.ogImage!==undefined && results.ogSiteName!==undefined){
+                    web={
+                        'twitterSiteName':results.ogSiteName,
+                        'twitterUrl':msg.message,
+                        'twitterTitle':results.ogTitle,
+                        'twitterDescription':results.ogDescription,
+                        'twitterImage':results.ogImage.url
+                    }
+                }else{
+                    web={
+                        'twitterCard':results.ogTitle,
+                        'twitterSiteName':'',
+                        'twitterUrl':msg.message,
+                        'twitterTitle':results.ogTitle,
+                        'twitterDescription':results.ogDescription,
+                        'twitterImage':''
+                    }
+                }
+
+                console.log('results:', results);
+                let messageObjet={
+                    'name':msg.pseudo,
+                    'image':gravatar,
+                    'message':web,
+                    'type':type
+                };
+                io.emit('chat message', messageObjet );
+                console.log(web)
+            });
+
+         }else{
+            type='message';
+        }
         if(msg.message.includes('@')){
             names.forEach(searchValue=>{
                 if(msg.message.includes('@'+searchValue.nameCurrentlyUsed)){
                     console.log('private');
-                    var messageObjet={
+                    let messageObjet={
                         'name':msg.pseudo,
                         'image':gravatar,
-                        'message':msg.message
+                        'message':msg.message,
+                        'type':type
                     };
                     io.to(searchValue.socketId).to(idRoom).emit('chat message', messageObjet );
                 }
             })
         }else{
-            var messageObjet={
-                'name':msg.pseudo,
-                'image':gravatar,
-                'message':msg.message
-            };
-            io.emit('chat message', messageObjet );
+            console.log(type)
+            if(type==='web'){
+                console.log('its web')
+            }else{
+                let messageObjet={
+                    'name':msg.pseudo,
+                    'image':gravatar,
+                    'message':msg.message,
+                    'type':type
+                };
+                io.emit('chat message', messageObjet );
+            }
         }
     });
 });

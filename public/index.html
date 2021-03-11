@@ -222,43 +222,44 @@
             let image=document.createElement('img');
             image.src = message.image;
             if(message.name===nameUser.value){
-                if(message.message.includes('img')){
-                    let imageInsert=message.message.replace("img: ","");
-                    item.innerHTML =`(You) ${message.name} :<img src="${imageInsert}"> <br>${hours} : ${min}`;
-                }else if (message.message.includes('vid')){
-                    let videoInsert=message.message.replace("vid: ","");
-                    let youtubeLink=videoInsert.replace("watch?v=","embed/")
-                    console.log(videoInsert)
+                if(message.type==='img'){
+                    item.innerHTML =`(You) ${message.name} :<img width="400" height="content-box" src="${message.message}"> <br>${hours} : ${min}`;
+                }else if (message.type==='youtube'){
+                    let youtubeLink=message.message.replace("watch?v=","embed/")
                     item.innerHTML =`(You) ${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
-                }else if (message.message.includes('vimeoVid')){
-                    let videoVimeoInsert=message.message.replace("vimeoVid: ","");
-                    let vimeoLink=videoVimeoInsert.replace("vimeo.com","player.vimeo.com/video")
+                }else if (message.type==='vimeo'){
+                    let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
                     item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
-                }else if(message.message.includes('mus:')){
-                    let audioInsert=message.message.replace("mus: ","");
-                    item.innerHTML =`(You) ${message.name} : <audio controls="controls"> <source src="${audioInsert}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
+                }else if(message.type==='mus'){
+                    item.innerHTML =`(You) ${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}<br>${hours} : ${min}`;
+                }else if(message.type==='web'){
+                    item.innerHTML =`(You) ${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.twitterImage}">
+                                                             <div class="textWebsite"><p class="siteNameWebsite">${message.message.twitterSiteName}</p><br>
+                                                             <a class="linkWebsite" src="${message.message.twitterUrl}">${message.message.twitterTitle}</a><br>
+                                                             <p class="descriptionWebsite">${message.message.twitterDescription}</p></div> </div><br>${hours} : ${min}`;
                 }else{
                     item.innerHTML =`(You) ${message.name} : ${message.message}<br>${hours} : ${min}`;
                 }
                 item.classList.add("messMoi");
                 image.classList.add('yourImageProfil');
             }else{
-                if(message.message.includes('img')){
-                    let imageInsert=message.message.replace("img: ","");
-                    item.innerHTML =`${message.name}  :  <img src="${imageInsert}"> <br>${hours} : ${min}`;
-                }else if (message.message.includes('youtubeVid')){
-                    let videoInsert=message.message.replace("youtubeVid: ","");
-                    let youtubeLink=videoInsert.replace("watch?v=","embed/")
-                    item.innerHTML =`${message.name}  :   <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
-                }else if (message.message.includes('vimeoVid')){
-                    let videoVimeoInsert=message.message.replace("vimeoVid: ","");
-                    let vimeoLink=videoVimeoInsert.replace("vimeo.com","player.vimeo.com/video")
-                    item.innerHTML =`${message.name}  :   <iframe src="${vimeoLink}"></iframe><br>${hours} : ${min}`;
-                }else if(message.message.includes('mus')){
-                    let audioInsert=message.message.replace("mus: ","");
-                    item.innerHTML =`${message.name}  : <audio controls="controls"> <source src="${audioInsert}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
+                if(message.type==='img'){
+                    item.innerHTML =`${message.name} :<img width="300" height="content-box" src="${message.message}"> <br>${hours} : ${min}`;
+                }else if (message.type==='youtube'){
+                    let youtubeLink=message.message.replace("watch?v=","embed/")
+                    item.innerHTML =`${message.name} : <iframe src="${youtubeLink}"></iframe><br>${hours} : ${min}`;
+                }else if (message.type==='vimeo'){
+                    let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
+                    item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
+                }else if(message.type==='mus'){
+                    item.innerHTML =`${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}`;
+                }else if(message.type==='web'){
+                    item.innerHTML =`${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.twitterImage}">
+                                                             <div class="textWebsite"><p class="siteNameWebsite">${message.message.twitterSiteName}</p><br>
+                                                             <a class="linkWebsite" src="${message.message.twitterUrl}">${message.message.twitterTitle}</a><br>
+                                                             <p class="descriptionWebsite">${message.message.twitterDescription}</p></div> </div><br>${hours} : ${min}`;
                 }else{
-                    item.innerHTML =`${message.name}  :  ${message.message}<br>${hours} : ${min}`;
+                    item.innerHTML =`${message.name} : ${message.message}<br>${hours} : ${min}`;
                 }
                 image.classList.add('imageProfil');
                 item.classList.add('messageSend');

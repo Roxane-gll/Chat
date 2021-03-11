@@ -103,7 +103,7 @@ body {
     color: #ffffff;
     position:absolute;
     left: 245px;
-    top:0
+    top:0;
 }
 
 .listCommandVisible{
@@ -201,4 +201,30 @@ input:focus {
 .la-arrow-down{
     transform: rotate(360deg);
     transition: transform 0.5s;
+}
+
+.wrapperWebsite{
+    padding-bottom:10px;
+    width: 300px;
+    border-radius: 20px;
+    background-color: rgba(255, 0, 255,0.25);
+}
+
+.linkWebsite{
+    width: 300px;
+    height: 300px;
+    font-size: 20px;
+}
+
+.imgWebsite{
+    border-radius: 10px 10px 0 0;
+}
+
+.textWebsite{
+    text-align: center;
+    width: 300px;
+}
+
+.siteNameWebsite{
+    font-size: 10px;
 }
