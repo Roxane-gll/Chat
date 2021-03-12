@@ -2,7 +2,7 @@
 
 Cette messagerie a été crée lors d'un workshop d'une semaine.
 
-Ce site est disponible sur [ce lien](https://dry-savannah-07671.herokuapp.com/ "Messagerie instentanée.").
+Ce site est disponible sur [ce lien](https://messagerieworkshop.herokuapp.com/ "Messagerie instentanée.").
 
 ## Connection
 
