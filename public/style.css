@@ -267,7 +267,7 @@ input:focus {
 
 }
 
-@media screen and (min-width: 700px){
+@media screen and (min-width: 700px) and (max-width: 900px){
     *{
         font-size: 22px;
     }
@@ -295,7 +295,7 @@ input:focus {
 }
 
 
-@media screen and (min-width: 200px){
+@media screen and (min-width: 200px) and (max-width: 70px){
     *{
         font-size: 120%;
     }
