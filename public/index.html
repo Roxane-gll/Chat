@@ -23,10 +23,12 @@
         </ul>
     </div>
 
+    <div id="vericalLine"></div>
+
     <!-- Zone pour écrire et envoyer les messages-->
     <ul id="messages"></ul>
     <form id="formMessage" action="">
-        <input id="input" required /><button id="send">Send</button>
+        <input id="input" required value="@[pseudo]+message:message privé"/><button id="send">Send</button>
     </form>
     <!-- lien vers le socket.io-->
     <script src="/socket.io/socket.io.js"></script>
@@ -109,6 +111,11 @@
                 list.disabled = false;
             }
         });
+
+        input.addEventListener('focus',function (){
+            input.value='';
+        });
+
         //texte lors de l'écriture d'un message
         input.addEventListener('input',function(e){
             let inputValue={
@@ -146,7 +153,7 @@
                         classChosen='disconnected';
                     }
                     let item = document.createElement('li');
-                    item.innerHTML = `<div id="pointConnectOrDisconnect" class=${classChosen}></div>${userLogin.nameCurrentlyUsed}`;
+                    item.innerHTML = `<div id="pointConnectOrDisconnect" class=${classChosen}></div><img class="imageInList" src="${userLogin.image}"/>${userLogin.nameCurrentlyUsed}`;
                     user.appendChild(item);
                     window.scrollTo(0, document.body.scrollHeight);
                 })
@@ -208,7 +215,7 @@
             }else if (message.type==='vimeo'){
                 let vimeoLink=message.message.replace("vimeo.com","player.vimeo.com/video")
                 item.innerHTML =`${message.name} : <iframe src="${vimeoLink}"> </iframe> <br>${hours} : ${min}`;
-            }else if(message.type==='mus'){
+            }else if(message.type==='musique'){
                 item.innerHTML =`${userExp}${message.name} : <audio controls="controls"> <source src="${message.message}" type="audio/mpeg"> </audio> <br>${hours} : ${min}<br>${hours} : ${min}`;
             }else if(message.type==='web'){
                 item.innerHTML =`${userExp}${message.name} : <div class="wrapperWebsite"> <img class="imgWebsite" width="300" height="content-box" src="${message.message.image}">

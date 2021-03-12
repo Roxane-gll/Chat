@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
         if(msg.message.includes('image')||msg.message.includes('jpg')||msg.message.includes('jpeg')){
             type='img';
         }else if(msg.message.includes('mp3')){
-            type='mus';
+            type='musique';
         }else if(msg.message.includes('youtube')){
             type='youtube';
         }else if(msg.message.includes('vimeo')){
