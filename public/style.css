@@ -117,17 +117,19 @@ input:focus {
     padding: 10px 10px 10px 45px;
     width: 400px;
     margin: 5px;
-    border-radius: 20px 20px 0 20px;
+
     word-wrap: break-word;
 }
 
 .messageSend{
     background-color: rgba(191, 0, 255,0.25);
+    border-radius: 20px 20px 20px 0;
 }
 
 .messMoi {
     text-align: right;
     background-color: rgba(255, 0, 0,0.25);
+    border-radius: 20px 20px 0 20px;
 }
 
 .imageProfil{

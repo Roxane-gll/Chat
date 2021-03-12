@@ -122,7 +122,6 @@ io.on('connection', (socket) => {
         if(msg.message.includes('@')){
             names.forEach(searchValue=>{
                 if(msg.message.includes('@'+searchValue.nameCurrentlyUsed)){
-                    console.log('private');
                     let messageObjet={
                         'name':msg.pseudo,
                         'image':gravatar,
